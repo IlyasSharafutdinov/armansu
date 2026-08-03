@@ -98,6 +98,9 @@
     animation:float 5s ease-in-out infinite;
     filter:drop-shadow(0 40px 60px rgba(0,0,0,0.35));
   }
+  /* Заглушка показывается, если файл bottle.png не найден рядом с index.html.
+     Как только вы добавите bottle.png (рекомендуется PNG с прозрачным фоном,
+     примерно 600–900px по высоте), заглушка исчезнет автоматически. */
   .bottle-placeholder{
     display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;
     width:220px; height:420px; margin:0 auto;
@@ -162,6 +165,10 @@
   .stm-copy li{display:flex; gap:12px; font-size:15px; color:var(--deep);}
   .stm-copy li::before{content:'✓'; color:var(--wave); font-weight:700;}
   .brand-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .stm-photo{
+    width:100%; border-radius:var(--radius); box-shadow:0 20px 50px rgba(10,37,64,0.18);
+    border:1px solid rgba(31,127,184,0.12);
+  }
   .brand-chip{
     background:var(--white); border-radius:14px; padding:22px 10px; text-align:center; font-family:'Unbounded',sans-serif;
     font-size:13px; font-weight:600; color:var(--deep); border:1px solid rgba(31,127,184,0.12); box-shadow:0 8px 20px rgba(10,37,64,0.05);
@@ -256,14 +263,18 @@
       <div class="hero-stats">
         <div><b>0,5–19 л</b><span>линейка объёмов</span></div>
         <div><b>100%</b><span>бесплатная доставка</span></div>
-        <div><b>1 200+</b><span>подписчиков в Instagram</span></div>
+        <div><b>1 217+</b><span>подписчиков в Instagram</span></div>
       </div>
     </div>
     <div class="hero-art">
+      <!-- Поместите файл bottle.png (PNG, прозрачный фон) рядом с этим index.html —
+           он подставится автоматически вместо заглушки ниже. -->
       <img src="bottle.png" alt="Бутылка ARMAN SU" class="bottle-img"
            onerror="this.style.display='none'; document.getElementById('bottlePlaceholder').style.display='flex';">
       <div class="bottle-placeholder" id="bottlePlaceholder">
         <span class="ico">🖼️</span>
+        <b>Место для PNG бутылки</b>
+        <span>Добавьте файл bottle.png<br>рядом с index.html</span>
       </div>
     </div>
   </div>
@@ -333,7 +344,8 @@
       </div>
     </div>
     <div>
-      <p style="font-family:'Unbounded',sans-serif; font-size:14px; color:var(--wave); font-weight:600; margin-bottom:18px;">Бренды, которым мы предоставляем услуги СТМ</p>
+      <img src="stm-brands.jpg" alt="Бутылки воды под брендами Chaplin Cinemas, Eco Petrol, G-Drive, Kulikov, BioWater, Baganashil" class="stm-photo">
+      <p style="font-family:'Unbounded',sans-serif; font-size:14px; color:var(--wave); font-weight:600; margin:20px 0 18px;">Бренды, с которыми мы предоставляем услуги СТМ</p>
       <div class="brand-grid">
       <div class="brand-chip">Chaplin Cinemas</div>
       <div class="brand-chip">Eco Petrol</div>
@@ -386,7 +398,7 @@
 <footer>
   <div class="wrap">
     <span class="brand">ARMAN SU</span>
-    <span>питьевая вода из Алматинской области</span>
+    <span>© 2026 TOO Armansu.kz · питьевая вода из Алматинской области</span>
   </div>
 </footer>
 
