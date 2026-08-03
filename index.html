@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARMAN SU — питьевая вода из Алматинской области</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --deep:#0a2540;
+    --deep2:#0e3358;
+    --ice:#eaf6fb;
+    --glacier:#8fd6ec;
+    --wave:#1f7fb8;
+    --wave-dark:#125a86;
+    --gold:#d7a94a;
+    --white:#ffffff;
+    --ink:#0a2540;
+    --muted:#5c7c92;
+    --radius:18px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+    background:var(--ice);
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.brand{font-family:'Unbounded',sans-serif;}
+  a{text-decoration:none; color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 24px;}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,37,64,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:16px 24px; max-width:1180px; margin:0 auto;}
+  .brand{color:var(--white); font-size:20px; font-weight:700; letter-spacing:0.5px; display:flex; align-items:center; gap:10px;}
+  .brand .drop{
+    width:14px; height:18px; border-radius:50% 50% 50% 0; background:linear-gradient(180deg,var(--glacier),var(--wave)); transform:rotate(45deg);
+  }
+  nav.links{display:flex; gap:32px;}
+  nav.links a{color:var(--ice); font-size:14px; font-weight:500; opacity:0.85; transition:opacity .2s;}
+  nav.links a:hover{opacity:1;}
+  .nav-cta{
+    background:var(--gold); color:var(--deep); padding:10px 20px; border-radius:999px; font-weight:600; font-size:14px;
+    white-space:nowrap;
+  }
+  .burger{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
+  .burger span{width:24px; height:2px; background:var(--white); display:block;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(ellipse at 70% 20%, var(--deep2), var(--deep) 60%);
+    color:var(--white);
+    padding:110px 0 0;
+    overflow:hidden;
+  }
+  .hero .wrap{display:grid; grid-template-columns:1.1fr 0.9fr; gap:40px; align-items:center; position:relative; z-index:2;}
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px; font-size:13px; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--glacier); font-weight:600; margin-bottom:20px;
+  }
+  .eyebrow::before{content:''; width:24px; height:1px; background:var(--glacier);}
+  .hero h1{
+    font-size:clamp(38px,5vw,64px); line-height:1.05; font-weight:700; margin-bottom:22px;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(90deg,var(--glacier),#fff);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero p{font-size:17px; line-height:1.7; color:rgba(234,246,251,0.85); max-width:480px; margin-bottom:34px;}
+  .hero-btns{display:flex; gap:16px; flex-wrap:wrap;}
+  .btn{
+    padding:15px 28px; border-radius:999px; font-weight:600; font-size:15px; display:inline-flex; align-items:center; gap:8px;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .btn-primary{background:var(--gold); color:var(--deep);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 10px 24px rgba(215,169,74,0.35);}
+  .btn-ghost{border:1px solid rgba(255,255,255,0.35); color:var(--white);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.08); transform:translateY(-2px);}
+  .hero-stats{display:flex; gap:34px; margin-top:48px; flex-wrap:wrap;}
+  .hero-stats div{border-left:2px solid var(--gold); padding-left:14px;}
+  .hero-stats b{display:block; font-size:26px; font-family:'Unbounded',sans-serif;}
+  .hero-stats span{font-size:13px; color:rgba(234,246,251,0.7);}
+
+  .hero-art{position:relative; height:460px; display:flex; align-items:center; justify-content:center;}
+  .bottle-img{
+    max-height:440px; width:auto; margin:0 auto;
+    animation:float 5s ease-in-out infinite;
+    filter:drop-shadow(0 40px 60px rgba(0,0,0,0.35));
+  }
+  .bottle-placeholder{
+    display:none; flex-direction:column; align-items:center; justify-content:center; gap:14px;
+    width:220px; height:420px; margin:0 auto;
+    border:2px dashed rgba(255,255,255,0.35); border-radius:24px;
+    color:rgba(234,246,251,0.7); text-align:center; padding:24px;
+    animation:float 5s ease-in-out infinite;
+  }
+  .bottle-placeholder .ico{font-size:34px;}
+  .bottle-placeholder b{font-family:'Unbounded',sans-serif; font-size:14px; color:var(--white); letter-spacing:0.5px;}
+  .bottle-placeholder span{font-size:12.5px; line-height:1.5;}
+  @keyframes float{0%,100%{transform:translateY(0px);} 50%{transform:translateY(-16px);}}
+
+  .ripple{position:absolute; border-radius:50%; border:1px solid rgba(143,214,236,0.25);}
+  .r1{width:520px; height:520px; top:-100px; right:-140px;}
+  .r2{width:340px; height:340px; top:20px; right:-40px;}
+
+  .wave-divider{display:block; width:100%; line-height:0;}
+  .wave-divider svg{width:100%; height:80px; display:block;}
+
+  /* ---------- Section generic ---------- */
+  section{padding:90px 0;}
+  .sec-head{max-width:640px; margin-bottom:56px;}
+  .sec-eyebrow{
+    font-size:13px; letter-spacing:1.5px; text-transform:uppercase; color:var(--wave); font-weight:700; margin-bottom:12px; display:block;
+  }
+  .sec-head h2{font-size:clamp(28px,3.4vw,40px); line-height:1.15; font-weight:700; color:var(--deep);}
+  .sec-head p{margin-top:16px; color:var(--muted); font-size:16px; line-height:1.7;}
+
+  /* ---------- About / process ---------- */
+  .about{background:var(--white);}
+  .about-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:28px;}
+  .about-card{
+    background:var(--ice); border-radius:var(--radius); padding:32px 26px; border:1px solid rgba(31,127,184,0.12);
+  }
+  .about-card .num{font-family:'Unbounded',sans-serif; font-size:14px; color:var(--wave); font-weight:700; margin-bottom:16px;}
+  .about-card h3{font-size:19px; margin-bottom:10px; color:var(--deep);}
+  .about-card p{font-size:14.5px; color:var(--muted); line-height:1.65;}
+
+  /* ---------- Products ---------- */
+  .products{background:var(--deep); color:var(--white); position:relative; overflow:hidden;}
+  .products .sec-head h2{color:var(--white);}
+  .products .sec-eyebrow{color:var(--glacier);}
+  .products .sec-head p{color:rgba(234,246,251,0.75);}
+  .sizes-row{display:flex; align-items:flex-end; gap:22px; overflow-x:auto; padding-bottom:12px; scrollbar-width:none;}
+  .sizes-row::-webkit-scrollbar{display:none;}
+  .size-card{
+    flex:0 0 auto; width:140px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; padding:22px 16px; text-align:center; transition:transform .25s, background .25s;
+  }
+  .size-card:hover{transform:translateY(-8px); background:rgba(255,255,255,0.08);}
+  .size-jug{margin:0 auto 16px; background:linear-gradient(180deg,rgba(143,214,236,0.35),rgba(31,127,184,0.15)); border:1px solid rgba(255,255,255,0.3); border-radius:10px 10px 26px 26px;}
+  .size-card b{display:block; font-family:'Unbounded',sans-serif; font-size:20px; margin-bottom:4px;}
+  .size-card span{font-size:12.5px; color:rgba(234,246,251,0.65);}
+
+  /* ---------- Private label ---------- */
+  .stm{background:var(--ice);}
+  .stm-wrap{display:grid; grid-template-columns:0.9fr 1.1fr; gap:48px; align-items:center;}
+  .stm-copy .sec-eyebrow{color:var(--wave);}
+  .stm-copy h2{font-size:clamp(26px,3.2vw,36px); color:var(--deep); margin-bottom:18px; font-weight:700;}
+  .stm-copy p{color:var(--muted); line-height:1.75; margin-bottom:14px; font-size:15.5px;}
+  .stm-copy ul{margin-top:22px; display:flex; flex-direction:column; gap:12px;}
+  .stm-copy li{display:flex; gap:12px; font-size:15px; color:var(--deep);}
+  .stm-copy li::before{content:'✓'; color:var(--wave); font-weight:700;}
+  .brand-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+  .brand-chip{
+    background:var(--white); border-radius:14px; padding:22px 10px; text-align:center; font-family:'Unbounded',sans-serif;
+    font-size:13px; font-weight:600; color:var(--deep); border:1px solid rgba(31,127,184,0.12); box-shadow:0 8px 20px rgba(10,37,64,0.05);
+  }
+
+  /* ---------- Delivery ---------- */
+  .delivery{background:var(--white);}
+  .delivery-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:24px;}
+  .step{position:relative; padding-top:14px;}
+  .step .line{position:absolute; top:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--wave),var(--glacier)); border-radius:3px;}
+  .step h3{font-size:17px; margin:18px 0 8px; color:var(--deep);}
+  .step p{font-size:14px; color:var(--muted); line-height:1.6;}
+  .step .tag{font-family:'Unbounded',sans-serif; font-size:22px; color:var(--wave);}
+
+  /* ---------- Contact ---------- */
+  .contact{background:var(--deep); color:var(--white); position:relative; overflow:hidden;}
+  .contact .wrap{display:grid; grid-template-columns:1fr 1fr; gap:50px; position:relative; z-index:2;}
+  .contact .sec-eyebrow{color:var(--glacier);}
+  .contact h2{font-size:clamp(26px,3.2vw,38px); margin-bottom:18px;}
+  .contact p{color:rgba(234,246,251,0.75); line-height:1.7; margin-bottom:28px; max-width:440px;}
+  .contact-row{display:flex; gap:16px; flex-wrap:wrap; margin-bottom:34px;}
+  .info-card{
+    background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:28px;
+  }
+  .info-card .line{display:flex; gap:14px; margin-bottom:20px; align-items:flex-start;}
+  .info-card .line:last-child{margin-bottom:0;}
+  .info-card .ico{
+    width:38px; height:38px; border-radius:10px; background:rgba(143,214,236,0.15); display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto; font-size:17px;
+  }
+  .info-card .txt b{display:block; font-size:14px; color:var(--white); margin-bottom:3px;}
+  .info-card .txt span{font-size:13.5px; color:rgba(234,246,251,0.65);}
+  .info-card .txt a{color:var(--glacier);}
+
+  footer{background:#08192c; color:rgba(234,246,251,0.55); padding:28px 0; font-size:13px;}
+  footer .wrap{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;}
+  footer .brand{font-size:15px; color:var(--white);}
+
+  @media (max-width: 880px){
+    nav.links{display:none;}
+    .burger{display:flex;}
+    .hero .wrap{grid-template-columns:1fr; text-align:center;}
+    .hero p{margin-left:auto; margin-right:auto;}
+    .hero-btns{justify-content:center;}
+    .hero-stats{justify-content:center;}
+    .hero-art{height:320px;}
+    .about-grid{grid-template-columns:1fr;}
+    .stm-wrap{grid-template-columns:1fr;}
+    .brand-grid{grid-template-columns:repeat(3,1fr);}
+    .delivery-grid{grid-template-columns:1fr 1fr;}
+    .contact .wrap{grid-template-columns:1fr;}
+  }
+  @media (max-width: 520px){
+    .delivery-grid{grid-template-columns:1fr;}
+    .brand-grid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bottle{animation:none;}
+  }
+  :focus-visible{outline:2px solid var(--gold); outline-offset:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="#top" class="brand"><span class="drop"></span>ARMAN SU</a>
+    <nav class="links">
+      <a href="#about">О заводе</a>
+      <a href="#products">Продукция</a>
+      <a href="#stm">Свой бренд</a>
+      <a href="#delivery">Доставка</a>
+      <a href="#contact">Контакты</a>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/77471110335" target="_blank" rel="noopener">Заказать в WhatsApp</a>
+    <button class="burger" aria-label="Меню" onclick="document.querySelector('.links').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="hero" id="top">
+  <div class="ripple r1"></div>
+  <div class="ripple r2"></div>
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Завод питьевой воды · Алматинская область</span>
+      <h1>Чистая вода <em>у подножия гор</em>, доставленная к вашей двери</h1>
+      <p>ARMAN SU производит питьевую воду объёмом от 0,5 до 19 литров и выпускает воду под собственным брендом заказчика — с бесплатной доставкой по Алматы и области.</p>
+      <div class="hero-btns">
+        <a class="btn btn-primary" href="https://wa.me/77471110335" target="_blank" rel="noopener">Заказать воду →</a>
+        <a class="btn btn-ghost" href="#stm">Собственный бренд (СТМ)</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>0,5–19 л</b><span>линейка объёмов</span></div>
+        <div><b>100%</b><span>бесплатная доставка</span></div>
+        <div><b>1 217+</b><span>подписчиков в Instagram</span></div>
+      </div>
+    </div>
+    <div class="hero-art">
+      <img src="bottle.png" alt="Бутылка ARMAN SU" class="bottle-img"
+           onerror="this.style.display='none'; document.getElementById('bottlePlaceholder').style.display='flex';">
+      <div class="bottle-placeholder" id="bottlePlaceholder">
+        <span class="ico">🖼️</span>
+      </div>
+    </div>
+  </div>
+  <div class="wave-divider">
+    <svg viewBox="0 0 1200 80" preserveAspectRatio="none"><path d="M0,40 C200,90 400,0 600,40 C800,80 1000,10 1200,40 L1200,80 L0,80 Z" fill="#eaf6fb"></path></svg>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">О компании</span>
+      <h2>Питьевая вода «Arman», произведённая в Казахстане</h2>
+      <p>Мы добываем и разливаем питьевую воду на собственном заводе в Карасайском районе Алматинской области, снабжая офисы, кафе, магазины и семьи по всему региону.</p>
+    </div>
+    <div class="about-grid">
+      <div class="about-card">
+        <div class="num">01</div>
+        <h3>Собственное производство</h3>
+        <p>Полный цикл — от очистки и розлива до упаковки — на одной производственной площадке под Алматы.</p>
+      </div>
+      <div class="about-card">
+        <div class="num">02</div>
+        <h3>Контроль качества</h3>
+        <p>Продукция сопровождается пакетом сертификатов соответствия, доступных по запросу перед поставкой.</p>
+      </div>
+      <div class="about-card">
+        <div class="num">03</div>
+        <h3>Гибкие поставки</h3>
+        <p>От одной бутыли для дома до регулярных партий для офисов, ресторанов и сетей магазинов — с бесплатной доставкой.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Продукция</span>
+      <h2>Один источник — вся линейка объёмов</h2>
+      <p>Выбирайте формат под задачу: питьевая бутылка на день, семейная тара для дома или бутыль для кулера в офисе.</p>
+    </div>
+    <div class="sizes-row">
+      <div class="size-card"><div class="size-jug" style="width:34px;height:56px;"></div><b>0,5 л</b><span>на каждый день</span></div>
+      <div class="size-card"><div class="size-jug" style="width:40px;height:78px;"></div><b>1 л</b><span>для дома и офиса</span></div>
+      <div class="size-card"><div class="size-jug" style="width:56px;height:100px;"></div><b>5 л</b><span>для кухни</span></div>
+      <div class="size-card"><div class="size-jug" style="width:64px;height:118px;"></div><b>10 л</b><span>для семьи</span></div>
+      <div class="size-card"><div class="size-jug" style="width:68px;height:130px;"></div><b>12 л</b><span>для кулеров</span></div>
+      <div class="size-card"><div class="size-jug" style="width:74px;height:146px;"></div><b>19 л</b><span>для офисов</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="stm" id="stm">
+  <div class="wrap stm-wrap">
+    <div class="stm-copy">
+      <span class="sec-eyebrow">СТМ · Собственная торговая марка</span>
+      <h2>Производим воду под вашим брендом</h2>
+      <p>Хотите воду с логотипом своей компании, кафе, отеля или мероприятия? Мы разливаем питьевую воду под индивидуальным дизайном этикетки — от пробной партии до постоянных поставок.</p>
+      <ul>
+        <li>Индивидуальный дизайн этикетки и объём тары</li>
+        <li>Минимальные партии для старта сотрудничества</li>
+        <li>Единый завод — производство, розлив и доставка</li>
+      </ul>
+      <div class="hero-btns" style="margin-top:28px;">
+        <a class="btn btn-primary" href="https://wa.me/77471110335" target="_blank" rel="noopener">Обсудить свой бренд</a>
+      </div>
+    </div>
+    <div>
+      <p style="font-family:'Unbounded',sans-serif; font-size:14px; color:var(--wave); font-weight:600; margin-bottom:18px;">Бренды, которым мы предоставляем услуги СТМ</p>
+      <div class="brand-grid">
+      <div class="brand-chip">Chaplin Cinemas</div>
+      <div class="brand-chip">Eco Petrol</div>
+      <div class="brand-chip">G-Drive</div>
+      <div class="brand-chip">Kulikov</div>
+      <div class="brand-chip">BioWater</div>
+      <div class="brand-chip">Baganashil</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="delivery" id="delivery">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="sec-eyebrow">Доставка</span>
+      <h2>От заявки до бутыли на пороге</h2>
+      <p>Простой процесс заказа для разового и регулярного снабжения водой.</p>
+    </div>
+    <div class="delivery-grid">
+      <div class="step"><div class="line"></div><span class="tag">01</span><h3>Заявка</h3><p>Пишете в WhatsApp или звоните — указываете объём и адрес.</p></div>
+      <div class="step"><div class="line"></div><span class="tag">02</span><h3>Подтверждение</h3><p>Согласовываем количество тары и удобное время доставки.</p></div>
+      <div class="step"><div class="line"></div><span class="tag">03</span><h3>Доставка</h3><p>Привозим воду бесплатно по Алматы и Алматинской области.</p></div>
+      <div class="step"><div class="line"></div><span class="tag">04</span><h3>Повтор</h3><p>Настраиваем регулярный график поставок для офиса или дома.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="ripple r1" style="top:auto; bottom:-160px; left:-140px; right:auto;"></div>
+  <div class="wrap">
+    <div>
+      <span class="sec-eyebrow">Контакты</span>
+      <h2>Свяжитесь с нами</h2>
+      <p>Ответим на вопросы о продукции, объёмах, доставке и производстве воды под вашим брендом.</p>
+      <div class="contact-row">
+        <a class="btn btn-primary" href="https://wa.me/77471110335" target="_blank" rel="noopener">WhatsApp: +7 747 111 0335</a>
+        <a class="btn btn-ghost" href="https://www.instagram.com/armansu.kz/" target="_blank" rel="noopener">Instagram @armansu.kz</a>
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="line"><div class="ico">📍</div><div class="txt"><b>Адрес завода</b><span>Верхняя Каскеленская трасса, 3/2, Карасайский район, Алматинская область</span></div></div>
+      <div class="line"><div class="ico">📞</div><div class="txt"><b>Телефон / WhatsApp</b><span><a href="tel:+77479188888">+7 747 918 8888</a> · <a href="tel:+77471110335">+7 747 111 0335</a></span></div></div>
+      <div class="line"><div class="ico">🕘</div><div class="txt"><b>Режим работы</b><span>Ежедневно, с 09:00</span></div></div>
+      <div class="line"><div class="ico">🗺️</div><div class="txt"><b>На карте</b><span><a href="https://2gis.kz/almaty/firm/70000001047077617?m=76.700806%2C43.172314%2F16" target="_blank" rel="noopener">Открыть в 2GIS</a></span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">ARMAN SU</span>
+    <span>© 2026 TOO Armansu.kz · питьевая вода из Алматинской области</span>
+  </div>
+</footer>
+
+</body>
+</html>
